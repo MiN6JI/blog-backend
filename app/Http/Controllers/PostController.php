@@ -19,7 +19,7 @@ class PostController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     */ 
+     */
     public function create()
     {
         //
@@ -32,14 +32,22 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|min:3',
-            'body' => 'required|min:3'
+            'body' => 'required|min:3',
+            'feature_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        return Post::create([
-            'user_id' => 1,
-            'title' => $request->title,
-            'body' => $request->body,
-        ]);
+        if ($request->hasFile('feature_image')) {
+            $validatedData['feature_image'] = $request->file('feature_image')->store('posts', 'public');
+        }
+
+        return Post::create(
+            [
+                'user_id' => 1,
+                'title' => $request->title,
+                'body' => $request->body,
+                'feature_image' => $request->feature_image,
+            ]
+        );
     }
 
     /**
