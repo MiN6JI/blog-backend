@@ -30,26 +30,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|min:3',
             'body' => 'required|min:3',
             'feature_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        // If image is uploaded, store it in /storage/app/public/posts
         if ($request->hasFile('feature_image')) {
             $validatedData['feature_image'] = $request->file('feature_image')->store('posts', 'public');
         }
 
-        return Post::create(
-            [
-                'user_id' => 1,
-                'title' => $request->title,
-                'body' => $request->body,
-                'feature_image' => $request->feature_image,
-            ]
-        );
-    }
+        $validatedData['user_id'] = 1; // You can replace this with auth()->id() if using auth
 
+        return Post::create($validatedData);
+    }
     /**
      * Display the specified resource.
      */
