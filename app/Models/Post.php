@@ -16,10 +16,9 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function getImageUrlAttribute()
-    // {
-    //     return $this->feature_image
-    //         ? asset('storage/' . $this->feature_image)
-    //         : null;
-    // }
+    public function getFeatureImageAttribute($value)
+    {
+        return $value ? asset('storage/' . $value) : null;
+    }
+
 }
