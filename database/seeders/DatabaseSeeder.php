@@ -14,11 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Post::factory(20)->create();
-
-        User::find(1)->update([
-            'name' => 'Andre',
-            'email' => 'andre@andre.com',
-        ]);
+        $this->call(AdminSeeder::class);
     }
 }

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('title');
             $table->string('feature_image')->nullable();
             $table->text('body');
+            $table->string('tag')->nullable();
             $table->timestamps();
         });
     }
