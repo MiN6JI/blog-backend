@@ -18,10 +18,13 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory(),
+            'user_id' => 1, // creates a user if one doesn’t exist
             'title' => ucfirst($this->faker->words(5, true)),
-            'body' => $this->faker->sentences(12, true),
+            'body' => $this->faker->paragraphs(3, true),
+            'tag' => $this->faker->randomElement(['general', 'tech', 'lifestyle', 'news']),
+            'feature_image' => $this->faker->imageUrl(640, 480, 'blog', true, 'Post'),
             'created_at' => $this->faker->dateTimeBetween('-30 days', now()),
+            'updated_at' => now(),
         ];
     }
 }
