@@ -5,12 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Support\Str;
+
 class Post extends Model
 {
     use HasFactory;
     protected $guarded = [];
 
-    // protected $appends = ['image_url'];
+    protected $appends = ['feature_image_url'];
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -18,7 +20,17 @@ class Post extends Model
 
     public function getFeatureImageAttribute($value)
     {
-        return $value ? asset('storage/' . $value) : null;
+        $value = $this->feature_image;
+
+        if (!$value) {
+            return null;
+        }
+
+        if (Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+
+        return asset('storage/' . $value);
     }
 
 }
