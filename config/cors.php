@@ -20,8 +20,7 @@ return [
     'allowed_methods' => ['*'],
 
     'allowed_origins' => [
-        env('FRONTEND_URL', 'http://localhost:3000'),
-        'https://mingji-blogs.netlify.app',
+        env('FRONTEND_URL', 'https://mingji-blogs.netlify.app')
     ],
 
     'allowed_origins_patterns' => [],
