@@ -21,6 +21,7 @@ return [
 
     'allowed_origins' => [
         env('FRONTEND_URL', 'https://mingji-blogs.netlify.app')
+        // env('FRONTEND_URL', 'http://localhost:3000')
     ],
 
     'allowed_origins_patterns' => [],
