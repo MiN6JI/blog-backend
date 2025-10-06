@@ -5,7 +5,6 @@ use Modules\Blog\Http\Controllers\BlogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 // Public routes
 Route::post('/login', [AuthenticatedSessionController::class, 'store']); // login
 Route::get('/posts', [BlogController::class, 'index'])->name('post.index');
