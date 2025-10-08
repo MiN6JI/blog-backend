@@ -41,9 +41,15 @@ class BlogController extends Controller
             'tag' => 'required|string|max:100',
         ]);
 
-        // If image is uploaded, store it in /storage/app/public/posts
         if ($request->hasFile('feature_image')) {
-            $validatedData['feature_image'] = $request->file('feature_image')->store('posts', 'public');
+            $file = $request->file('feature_image');
+            $filename = time() . '-' . $file->getClientOriginalName();
+
+            // Store directly in public/posts
+            $file->move(public_path('posts'), $filename);
+
+            // Save the relative path to DB
+            $validatedData['feature_image'] = 'posts/' . $filename;
         }
 
         $validatedData['user_id'] = auth()->id(); // You can replace this with auth()->id() if using auth
