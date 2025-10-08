@@ -43,13 +43,9 @@ class BlogController extends Controller
 
         if ($request->hasFile('feature_image')) {
             $file = $request->file('feature_image');
-            $filename = time() . '-' . $file->getClientOriginalName();
-
-            // Store directly in public/posts
-            $file->move(public_path('posts'), $filename);
-
-            // Save relative path in DB
-            $validatedData['feature_image'] = 'posts/' . $filename;
+            $filename = time() . '-' . $file->getClientOriginalName(); // unique filename
+            $file->move(public_path('posts'), $filename); // move to public/posts
+            $validatedData['feature_image'] = url("posts/{$filename}"); // store full URL
         }
 
         $validatedData['user_id'] = auth()->id(); // You can replace this with auth()->id() if using auth
