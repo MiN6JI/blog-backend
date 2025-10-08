@@ -45,7 +45,7 @@ class BlogController extends Controller
             $file = $request->file('feature_image');
             $filename = time() . '-' . $file->getClientOriginalName(); // unique filename
             $file->move(public_path('posts'), $filename); // move to public/posts
-            $validatedData['feature_image'] = url("posts/{$filename}"); // store full URL
+            $validatedData['feature_image'] = secure_url("posts/{$filename}"); // store full URL
         }
 
         $validatedData['user_id'] = auth()->id(); // You can replace this with auth()->id() if using auth
