@@ -48,7 +48,7 @@ class BlogController extends Controller
             // Store directly in public/posts
             $file->move(public_path('posts'), $filename);
 
-            // Save the relative path to DB
+            // Save relative path in DB
             $validatedData['feature_image'] = 'posts/' . $filename;
         }
 
