@@ -87,12 +87,8 @@ class BlogController extends Controller
         ];
 
         // Validate explicitly
-        $validator = \Validator::make([
-            'title' => $request->input('title'),
-            'body' => $request->input('body'),
-            'tag' => $request->input('tag'),
-            'feature_image' => $request->file('feature_image'),
-        ], $rules);
+        $validator = \Validator::make($request->all(), $rules);
+
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
