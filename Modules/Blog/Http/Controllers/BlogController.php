@@ -82,17 +82,12 @@ class BlogController extends Controller
         $rules = [
             'title' => 'required|min:3',
             'body' => 'required|min:3',
-
             'feature_image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'tag' => 'required|string|max:100',
         ];
 
         // Manually validate to avoid Laravel's PATCH + FormData issues
-        $validator = \Validator::make(
-            $request->all() + $request->only(['title', 'body']),
-            $rules
-        );
-
-
+        $validator = \Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
@@ -100,12 +95,11 @@ class BlogController extends Controller
 
         $validatedData = $validator->validated();
 
-        // Handle new image upload
         if ($request->hasFile('feature_image')) {
-            $validatedData['feature_image'] = $request->file('feature_image')->store('posts', 'public');
-
-            // Optional: delete old image if needed
-            // Storage::delete('public/' . $post->feature_image);
+            $file = $request->file('feature_image');
+            $filename = time() . '-' . $file->getClientOriginalName(); // unique filename
+            $file->move(public_path('posts'), $filename); // move to public/posts
+            $validatedData['feature_image'] = secure_url("posts/{$filename}"); // store full URL
         }
 
         // Update post
